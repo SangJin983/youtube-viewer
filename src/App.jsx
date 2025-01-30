@@ -1,10 +1,12 @@
 import "./styles/App.css";
 import VideoList from "./components/VideoList";
+import VideoSearch from "./components/VideoSearch";
 
 function App() {
   return (
     <div>
-      <h1>앱 준비</h1>
+      <h1>유튜브 뷰어</h1>
+      <VideoSearch />
       <VideoList />
     </div>
   );

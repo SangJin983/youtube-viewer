@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSearchQuery } from "../features/videoSlice";
+import { getRandomQuery } from "../utils/utils";
 
-const VideoSearch = ({ onSearch }) => {
+const VideoSearch = () => {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault(); // 새로고침 방지
     if (query.trim()) {
-      onSearch(query);
+      dispatch(setSearchQuery(query));
       setQuery(""); // 입력필드 초기화
     }
   };
+
+  // 처음 랜덤검색 기능 구현
+  useEffect(() => {
+    dispatch(setSearchQuery(getRandomQuery()));
+  }, [dispatch, setSearchQuery, getRandomQuery]);
 
   return (
     <form onSubmit={handleSubmit}>
