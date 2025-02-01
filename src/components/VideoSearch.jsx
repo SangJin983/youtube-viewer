@@ -7,11 +7,28 @@ const VideoSearch = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
+  const debounce = (fn, ms) => {
+    let timer;
+
+    return (...args) => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+        fn(...args);
+      }, ms);
+    };
+  };
+
+  const debouncedDispatchAndResetQuery = debounce((searchQuery) => {
+    dispatch(setSearchQuery(searchQuery));
+    setQuery(""); // 입력필드 초기화
+  }, 500);
+
   const handleSubmit = (e) => {
     e.preventDefault(); // 새로고침 방지
     if (query.trim()) {
-      dispatch(setSearchQuery(query));
-      setQuery(""); // 입력필드 초기화
+      debouncedDispatchAndResetQuery(query);
     }
   };
 
