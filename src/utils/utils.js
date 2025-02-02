@@ -4,3 +4,18 @@ export const getRandomQuery = () => {
   const randomIndex = Math.floor(Math.random() * queries.length);
   return queries[randomIndex];
 };
+
+export const debounce = (fn, ms) => {
+  const timers = new WeakMap();
+
+  return (...args) => {
+    if (timers.has(fn)) {
+      clearTimeout(timers.get(fn));
+    }
+    const timer = setTimeout(() => {
+      fn(...args);
+      timers.delete(fn);
+    }, ms);
+    timers.set(fn, timer);
+  };
+};

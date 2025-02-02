@@ -1,34 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSearchQuery } from "../features/videoSlice";
-import { getRandomQuery } from "../utils/utils";
+import { debounce, getRandomQuery } from "../utils/utils";
 
 const VideoSearch = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
-  const debounce = (fn, ms) => {
-    let timer;
-
-    return (...args) => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(() => {
-        fn(...args);
-      }, ms);
-    };
-  };
-
-  const debouncedDispatchAndResetQuery = debounce((searchQuery) => {
+  const debouncedSetSearchQuery = debounce((searchQuery) => {
     dispatch(setSearchQuery(searchQuery));
-    setQuery(""); // 입력필드 초기화
+  }, 500);
+
+  const debouncedResetQuery = debounce(() => {
+    setQuery("");
   }, 500);
 
   const handleSubmit = (e) => {
     e.preventDefault(); // 새로고침 방지
     if (query.trim()) {
-      debouncedDispatchAndResetQuery(query);
+      debouncedSetSearchQuery(query);
+      debouncedResetQuery();
     }
   };
 
