@@ -5,16 +5,22 @@ const videoSlice = createSlice({
   initialState: {
     items: [],
     searchQuery: "",
+    nextPageToken: "",
   },
   reducers: {
     fetchVideos(state, action) {
-      state.items = action.payload;
+      state.items = action.payload.items;
+      state.nextPageToken = action.payload.nextPageToken;
     },
     setSearchQuery(state, action) {
       state.searchQuery = action.payload;
     },
+    addVideos(state, action) {
+      state.items.push(...action.payload.items);
+      state.nextPageToken = action.payload.nextPageToken;
+    },
   },
 });
 
-export const { fetchVideos, setSearchQuery } = videoSlice.actions;
+export const { fetchVideos, setSearchQuery, addVideos } = videoSlice.actions;
 export default videoSlice.reducer;
