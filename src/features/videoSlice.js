@@ -1,16 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const videoSlice = createSlice({
-  name: "video",
+  name: "videos",
   initialState: {
-    items: [],
+    list: [],
+    nextPageToken: null,
+    searchQuery: "",
   },
   reducers: {
     setVideos(state, action) {
-      state.items = action.payload;
+      state.list = action.payload.items;
+      state.nextPageToken = action.payload.nextPageToken;
+      state.searchQuery = action.payload.searchQuery;
+    },
+    appendVideos(state, action) {
+      const existingIds = new Set(state.list.map((v) => v.id.videoId));
+      const uniqueItems = action.payload.items.filter(
+        (item) => !existingIds.has(item.id.videoId)
+      );
+      state.list.push(...uniqueItems);
+      state.nextPageToken = action.payload.nextPageToken;
     },
   },
 });
 
-export const { setVideos } = videoSlice.actions;
+export const { setVideos, appendVideos } = videoSlice.actions;
 export default videoSlice.reducer;
