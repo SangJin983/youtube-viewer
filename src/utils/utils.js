@@ -5,7 +5,7 @@ export const getRandomYouTubeSearchTopic = () => {
   return queries[randomIndex];
 };
 
-export const debounce = (fn, ms) => {
+export const debounce = (fn, delayTime) => {
   let timer;
 
   return (...args) => {
@@ -14,6 +14,29 @@ export const debounce = (fn, ms) => {
     }
     timer = setTimeout(() => {
       fn(...args);
-    }, ms);
+    }, delayTime);
+  };
+};
+
+export const throttle = (fn, wait) => {
+  let lastCallTime = 0;
+  let timer;
+
+  return (...args) => {
+    const now = Date.now();
+    const remainingTime = wait - (now - lastCallTime);
+
+    if (remainingTime <= 0) {
+      clearTimeout(timer);
+      fn(...args);
+      lastCallTime = Date.now();
+      return;
+    }
+
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(...args);
+      lastCallTime = Date.now();
+    }, remainingTime);
   };
 };
