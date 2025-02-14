@@ -22,7 +22,7 @@ const VideoList = () => {
       );
       const action = appendVideos({ items, nextPageToken });
       dispatch(action);
-
+      // 디버깅을 위한 콘솔 로그
       console.log("비디오를 추가합니다. 현재 searchTerm:", searchTerm);
     },
     [fetchYouTubeSearchResults, appendVideos, dispatch]

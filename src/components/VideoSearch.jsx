@@ -10,7 +10,9 @@ const VideoSearch = () => {
 
   const loadVideos = useCallback(
     async (searchTerm) => {
-      const { items, nextPageToken } = await fetchYouTubeSearchResults(searchTerm);
+      const { items, nextPageToken } = await fetchYouTubeSearchResults(
+        searchTerm
+      );
       const action = setVideos({
         items,
         nextPageToken,
@@ -25,9 +27,9 @@ const VideoSearch = () => {
     e.preventDefault(); // 새로고침 방지
     if (searchTerm.trim()) {
       loadVideos(searchTerm);
-
+      // 디버깅을 위한 콘솔 로그
       console.log("검색한 비디오를 불러옵니다. searchTerm:", searchTerm);
-      
+
       setSearchTerm("");
     }
   };
@@ -35,6 +37,7 @@ const VideoSearch = () => {
   // 최초 랜덤검색 기능 구현
   useEffect(() => {
     const randomTopic = getRandomYouTubeSearchTopic();
+    // 디버깅을 위한 콘솔 로그
     console.log("randomTopic:", randomTopic);
     loadVideos(randomTopic);
   }, [loadVideos, getRandomYouTubeSearchTopic]);

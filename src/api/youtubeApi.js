@@ -1,18 +1,5 @@
 import { getRandomIndices } from "../utils/utils";
-
-const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
-const BASE_URL = import.meta.env.VITE_YOUTUBE_API_BASE_URL;
-const IS_USING_MOCK_DATA = true;
-const MOCK_DATA_FILE_NAMES = {
-  코딩: "coding",
-  요리: "cooking",
-  게임: "game",
-  영화: "movie",
-  음악: "music",
-  자연: "nature",
-  기술: "technology",
-  여행: "travel",
-};
+import { API_CONFIG, MOCK_DATA_FILE_NAMES } from "../config/apiConfig";
 
 const fetchMockData = async (searchQuery) => {
   const fileName = MOCK_DATA_FILE_NAMES[searchQuery];
@@ -28,7 +15,7 @@ const fetchMockData = async (searchQuery) => {
   const size = Math.min(lastIndex, 10);
   const randomIndices = getRandomIndices(0, lastIndex, size);
   const randomItems = randomIndices.map((idx) => data.items[idx]);
-
+  // 디버깅을 위한 콘솔 로그
   console.log("fetch(mockData)가 실행됐습니다");
 
   return { items: randomItems };
@@ -38,7 +25,7 @@ export const fetchYouTubeSearchResults = async (
   searchQuery,
   pageToken = ""
 ) => {
-  if (IS_USING_MOCK_DATA) {
+  if (API_CONFIG.USE_MCOK_DATA) {
     return await fetchMockData(searchQuery);
   }
 
@@ -48,10 +35,11 @@ export const fetchYouTubeSearchResults = async (
     maxResults: 10,
     type: "video",
     pageToken,
-    key: YOUTUBE_API_KEY,
+    key: API_CONFIG.API_KEY,
   });
 
-  const res = await fetch(`${BASE_URL}/search?${params}`);
+  const res = await fetch(`${API_CONFIG.BASE_URL}/search?${params}`);
+  // 디버깅을 위한 콘솔 로그
   console.log("fetch(YouTubeAPI)가 실행됐습니다");
 
   if (!res.ok) {
