@@ -1,35 +1,46 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchVideos } from "../api/youtubeApi";
+import { fetchYouTubeSearchResults } from "../api/youtubeApi";
 import { setVideos } from "../features/videoSlice";
-import { generateRandomSearchTerm } from "../utils/utils";
+import { getRandomYouTubeSearchTopic } from "../utils/utils";
 
 const VideoSearch = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchAndSetVideos = async (term) => {
-    const videos = await fetchVideos(term);
-    dispatch(setVideos(videos.items));
-  };
+  const loadVideos = useCallback(
+    async (searchTerm) => {
+      const { items, nextPageToken } = await fetchYouTubeSearchResults(
+        searchTerm
+      );
+      const action = setVideos({
+        items,
+        nextPageToken,
+        searchTerm,
+      });
+      dispatch(action);
+    },
+    [fetchYouTubeSearchResults, setVideos, dispatch]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // 새로고침 방지
     if (searchTerm.trim()) {
-      fetchAndSetVideos(searchTerm);
+      loadVideos(searchTerm);
+      // 디버깅을 위한 콘솔 로그
+      console.log("검색한 비디오를 불러옵니다. searchTerm:", searchTerm);
+
       setSearchTerm("");
     }
   };
 
   // 최초 랜덤검색 기능 구현
   useEffect(() => {
-    const fetchRandomSearchTerm = async () => {
-      const randomSearchTerm = generateRandomSearchTerm();
-      fetchAndSetVideos(randomSearchTerm);
-    };
-
-    fetchRandomSearchTerm();
-  }, [dispatch, generateRandomSearchTerm]);
+    const randomTopic = getRandomYouTubeSearchTopic();
+    // 디버깅을 위한 콘솔 로그
+    console.log("randomTopic:", randomTopic);
+    loadVideos(randomTopic);
+  }, [loadVideos, getRandomYouTubeSearchTopic]);
 
   return (
     <form onSubmit={handleSubmit}>
