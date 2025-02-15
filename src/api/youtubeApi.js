@@ -25,7 +25,7 @@ export const fetchYouTubeSearchResults = async (
   searchQuery,
   pageToken = ""
 ) => {
-  if (API_CONFIG.USE_MCOK_DATA) {
+  if (API_CONFIG.USE_MOCK_DATA) {
     return await fetchMockData(searchQuery);
   }
 
