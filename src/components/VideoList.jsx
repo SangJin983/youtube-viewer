@@ -5,8 +5,7 @@ import { appendVideos } from "../features/videoSlice";
 import { throttle } from "../utils/utils";
 import VideoItem from "./VideoItem";
 
-const THROTTLE_TIME = 5000;
-const SET_INTERVAL_TIME = 1000;
+const THROTTLE_TIME = 500;
 
 const VideoList = () => {
   const dispatch = useDispatch();
@@ -44,14 +43,11 @@ const VideoList = () => {
   };
 
   useEffect(() => {
-    // 주기적으로 스크롤 위치 확인
-    const intervalId = setInterval(handleScroll, SET_INTERVAL_TIME);
     // handleScroll 이벤트 핸들러를 스크롤 이벤트에 등록
     window.addEventListener("scroll", handleScroll);
     // 컴포넌트 언마운트 시 이벤트 핸들러 해제
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearInterval(intervalId);
     };
   }, [handleScroll]);
 
