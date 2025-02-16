@@ -3,22 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 const videoSlice = createSlice({
   name: "videos",
   initialState: {
-    results: [],
+    searchResult: [],
     nextPageToken: null,
     searchQuery: "",
   },
   reducers: {
     setVideos(state, action) {
-      state.results = action.payload.items;
+      state.searchResult = action.payload.items;
       state.nextPageToken = action.payload.nextPageToken;
-      state.searchQuery = action.payload.searchQuery;
+      state.searchQuery = action.payload.searchTerm;
     },
     appendVideos(state, action) {
-      const existingIds = new Set(state.results.map((v) => v.id.videoId));
+      const existingIds = new Set(state.searchResult.map((v) => v.id.videoId));
       const uniqueItems = action.payload.items.filter(
         (item) => !existingIds.has(item.id.videoId)
       );
-      state.results.push(...uniqueItems);
+      state.searchResult.push(...uniqueItems);
       state.nextPageToken = action.payload.nextPageToken;
     },
   },

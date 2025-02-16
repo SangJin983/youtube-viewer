@@ -5,6 +5,17 @@ export const getRandomYouTubeSearchTopic = () => {
   return queries[randomIndex];
 };
 
+export const getRandomIndices = (min, max, size = 1) => {
+  const result = new Set();
+
+  while (result.size < size) {
+    const randomIndex = Math.floor(Math.random() * (max - min + 1)) + min;
+    result.add(randomIndex);
+  }
+
+  return Array.from(result);
+};
+
 export const debounce = (fn, delayTime) => {
   let timer;
 
@@ -18,7 +29,11 @@ export const debounce = (fn, delayTime) => {
   };
 };
 
-export const throttle = (fn, wait) => {
+export const throttle = (
+  fn,
+  wait,
+  options = { leading: true, trailing: false }
+) => {
   let lastCallTime = 0;
   let timer;
 
@@ -27,16 +42,19 @@ export const throttle = (fn, wait) => {
     const remainingTime = wait - (now - lastCallTime);
 
     if (remainingTime <= 0) {
-      clearTimeout(timer);
-      fn(...args);
-      lastCallTime = Date.now();
+      if (options.leading) {
+        fn(...args);
+      }
+      lastCallTime = now;
       return;
     }
-
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn(...args);
-      lastCallTime = Date.now();
-    }, remainingTime);
+    if (options.trailing) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn(...args);
+        lastCallTime = now;
+      }, remainingTime);
+    }
+    return;
   };
 };
