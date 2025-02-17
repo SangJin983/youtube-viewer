@@ -2,8 +2,9 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchYouTubeSearchResults } from "../api/youtubeApi";
 import { appendVideos } from "../features/videoSlice";
-import { useModal } from "../hooks/useModal";
 import { throttle } from "../utils/utils";
+import ModalPortal from "./Modal/ModalPortal";
+import { useModal } from "./Modal/useModal";
 import VideoItem from "./VideoItem";
 
 const THROTTLE_TIME = 500;
@@ -13,7 +14,7 @@ const VideoList = () => {
   const videos = useSelector((state) => state.videos.searchResult);
   const pageToken = useSelector((state) => state.videos.nextPageToken);
   const searchQuery = useSelector((state) => state.videos.searchQuery);
-  const { Modal, open, close } = useModal();
+  const { open } = useModal();
 
   const loadMoreVideos = useCallback(
     async (searchTerm, pageToken) => {
@@ -60,9 +61,9 @@ const VideoList = () => {
 
   return (
     <div>
-      <Modal>
-        <div>환영합니다</div>
-      </Modal>
+      <ModalPortal>
+        <div>환영합니다.</div>
+      </ModalPortal>
       <div className="video-list">
         {videos.map((video) => (
           <VideoItem key={`${video.id.videoId}-${video.etag}`} video={video} />
