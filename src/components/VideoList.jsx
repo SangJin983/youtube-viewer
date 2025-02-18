@@ -4,6 +4,7 @@ import { fetchYouTubeSearchResults } from "../api/youtubeApi";
 import { appendVideos } from "../features/videoSlice";
 import { throttle } from "../utils/utils";
 import VideoItem from "./VideoItem";
+import ModalCompound from "./Modal/ModalCompound";
 
 const THROTTLE_TIME = 500;
 
@@ -55,7 +56,11 @@ const VideoList = () => {
     <div>
       <div className="video-list">
         {videos.map((video) => (
-          <VideoItem key={`${video.id.videoId}-${video.etag}`} video={video} />
+          <ModalCompound key={`${video.id.videoId}-${video.etag}`}>
+            <ModalCompound.Trigger>
+              <VideoItem video={video} />
+            </ModalCompound.Trigger>
+          </ModalCompound>
         ))}
       </div>
     </div>
