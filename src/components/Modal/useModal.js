@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ModalContext } from "./ModalProvider"
+import { ModalContext } from "./ModalCompound"
 
 export const useModal = () => {
   const modalState = useContext(ModalContext);
