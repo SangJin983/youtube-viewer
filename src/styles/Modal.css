@@ -24,3 +24,7 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+.modal-open {
+  cursor: pointer;
+}

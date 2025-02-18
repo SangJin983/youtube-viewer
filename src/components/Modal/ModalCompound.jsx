@@ -1,9 +1,11 @@
 import { createContext, useCallback, useState } from "react";
+import "../../styles/Modal.css";
 import ModalPortal from "./ModalPortal";
+import ModalTrigger from "./ModalTrigger";
 
 export const ModalContext = createContext(null);
 
-export const ModalCompound = ({ children }) => {
+const ModalCompound = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = useCallback(() => setIsOpen(true), [setIsOpen]);
@@ -17,3 +19,6 @@ export const ModalCompound = ({ children }) => {
 };
 
 ModalCompound.Content = ModalPortal;
+ModalCompound.Trigger = ModalTrigger;
+
+export default ModalCompound;
