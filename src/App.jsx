@@ -1,4 +1,4 @@
-import { ModalCompound } from "./components/Modal/ModalCompound";
+import ModalCompound from "./components/Modal/ModalCompound";
 import WelcomeModalTrigger from "./components/Modal/WelcomeModalTrigger";
 import VideoList from "./components/VideoList";
 import VideoSearch from "./components/VideoSearch";

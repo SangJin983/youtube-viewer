@@ -1,5 +1,4 @@
 import { createPortal } from "react-dom";
-import "../../styles/Modal.css";
 import { useModal } from "./useModal";
 
 const ModalPortal = ({ children }) => {
