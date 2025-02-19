@@ -1,5 +1,5 @@
-import { useContext } from "react"
-import { ModalContext } from "./ModalCompound"
+import { useContext } from "react";
+import { ModalContext } from "./ModalCompound";
 
 export const useModal = () => {
   const modalState = useContext(ModalContext);
@@ -9,4 +9,4 @@ export const useModal = () => {
   }
 
   return modalState;
-}
+};
