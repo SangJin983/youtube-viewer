@@ -28,33 +28,3 @@ export const debounce = (fn, delayTime) => {
     }, delayTime);
   };
 };
-
-export const throttle = (
-  fn,
-  wait,
-  options = { leading: true, trailing: false }
-) => {
-  let lastCallTime = 0;
-  let timer;
-
-  return (...args) => {
-    const now = Date.now();
-    const remainingTime = wait - (now - lastCallTime);
-
-    if (remainingTime <= 0) {
-      if (options.leading) {
-        fn(...args);
-      }
-      lastCallTime = now;
-      return;
-    }
-    if (options.trailing) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn(...args);
-        lastCallTime = now;
-      }, remainingTime);
-    }
-    return;
-  };
-};

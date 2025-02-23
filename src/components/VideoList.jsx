@@ -1,10 +1,10 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchYouTubeSearchResults } from "../api/youtubeApi";
 import { appendVideos } from "../features/videoSlice";
-import { throttle } from "../utils/utils";
-import VideoItem from "./VideoItem";
+import { useThrottle } from "../hooks/useThrottle";
 import ModalCompound from "./Modal/ModalCompound";
+import VideoItem from "./VideoItem";
 
 const THROTTLE_TIME = 500;
 
@@ -14,24 +14,18 @@ const VideoList = () => {
   const pageToken = useSelector((state) => state.videos.nextPageToken);
   const searchQuery = useSelector((state) => state.videos.searchQuery);
 
-  const loadMoreVideos = useCallback(
-    async (searchTerm, pageToken) => {
-      const { items, nextPageToken } = await fetchYouTubeSearchResults(
-        searchTerm,
-        pageToken
-      );
-      const action = appendVideos({ items, nextPageToken });
-      dispatch(action);
-      // 디버깅을 위한 콘솔 로그
-      console.log("비디오를 추가합니다. 현재 searchTerm:", searchTerm);
-    },
-    [fetchYouTubeSearchResults, appendVideos, dispatch]
-  );
+  const loadMoreVideos = async (searchTerm, pageToken) => {
+    const { items, nextPageToken } = await fetchYouTubeSearchResults(
+      searchTerm,
+      pageToken
+    );
+    const action = appendVideos({ items, nextPageToken });
+    dispatch(action);
+    // 디버깅을 위한 콘솔 로그
+    console.log("비디오를 추가합니다. 현재 searchTerm:", searchTerm);
+  };
 
-  const throttledLoadMoreVideos = useCallback(
-    throttle(loadMoreVideos, THROTTLE_TIME),
-    [throttle, loadMoreVideos]
-  );
+  const throttledLoadMoreVideos = useThrottle(loadMoreVideos, THROTTLE_TIME);
 
   const handleScroll = () => {
     const scrollPosition = window.innerHeight + window.scrollY;
