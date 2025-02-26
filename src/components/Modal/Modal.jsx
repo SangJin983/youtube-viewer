@@ -5,7 +5,7 @@ import ModalTrigger from "./ModalTrigger";
 
 export const ModalContext = createContext(null);
 
-const ModalCompound = ({ children }) => {
+const Modal = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = useCallback(() => {
@@ -25,7 +25,7 @@ const ModalCompound = ({ children }) => {
   );
 };
 
-ModalCompound.Content = ModalPortal;
-ModalCompound.Trigger = ModalTrigger;
+Modal.Content = ModalPortal;
+Modal.Trigger = ModalTrigger;
 
-export default ModalCompound;
+export default Modal;

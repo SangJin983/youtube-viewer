@@ -1,4 +1,4 @@
-import ModalCompound from "./Modal/ModalCompound";
+import Modal from "./Modal/Modal";
 
 const VideoItem = ({ video }) => {
   return (
@@ -14,7 +14,7 @@ const VideoItem = ({ video }) => {
           ? video.snippet.description.slice(0, 30) + "..."
           : video.snippet.description}
       </p>
-      <ModalCompound.Content>
+      <Modal.Content>
         <div>
           <h2>{video.snippet.title}</h2>
           <iframe
@@ -26,7 +26,7 @@ const VideoItem = ({ video }) => {
             allowFullScreen
           />
         </div>
-      </ModalCompound.Content>
+      </Modal.Content>
     </div>
   );
 };

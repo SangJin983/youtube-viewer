@@ -1,4 +1,4 @@
-import ModalCompound from "./components/Modal/ModalCompound";
+import Modal from "./components/Modal/Modal";
 import WelcomeModalTrigger from "./components/Modal/WelcomeModalTrigger";
 import VideoList from "./components/VideoList";
 import VideoSearch from "./components/VideoSearch";
@@ -11,9 +11,9 @@ function App() {
       <VideoSearch />
       <VideoList />
 
-      <ModalCompound>
+      <Modal>
         <WelcomeModalTrigger />
-        <ModalCompound.Content>
+        <Modal.Content>
         <h2>환영합니다!</h2>
         <p>유튜브 동영상을 검색할 수 있는 뷰어 서비스 입니다</p>
         <ul>
@@ -21,8 +21,8 @@ function App() {
           <li>스크롤을 내리면 영상이 추가됩니다</li>
           <li>목록을 클릭하면 영상을 볼 수 있습니다</li>
         </ul>
-        </ModalCompound.Content>
-      </ModalCompound>
+        </Modal.Content>
+      </Modal>
     </div>
   );
 }

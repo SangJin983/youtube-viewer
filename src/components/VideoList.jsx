@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchYouTubeSearchResults } from "../api/youtubeApi";
 import { appendVideos } from "../features/videoSlice";
 import { useThrottle } from "../hooks/useThrottle";
-import ModalCompound from "./Modal/ModalCompound";
+import Modal from "./Modal/Modal";
 import VideoItem from "./VideoItem";
 
 const THROTTLE_TIME = 500;
@@ -50,11 +50,11 @@ const VideoList = () => {
     <div>
       <div className="video-list">
         {videos.map((video) => (
-          <ModalCompound key={`${video.id.videoId}-${video.etag}`}>
-            <ModalCompound.Trigger>
+          <Modal key={`${video.id.videoId}-${video.etag}`}>
+            <Modal.Trigger>
               <VideoItem video={video} />
-            </ModalCompound.Trigger>
-          </ModalCompound>
+            </Modal.Trigger>
+          </Modal>
         ))}
       </div>
     </div>
